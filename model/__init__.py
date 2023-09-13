@@ -7,6 +7,7 @@ from model.base import Base
 from model.lancamento import Lancamento
 from model.natureza import Natureza
 from model.usuario import Usuario
+from model.tipo import Tipo
 
 db_url = 'sqlite:///database/db.sqlite3'
 
