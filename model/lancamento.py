@@ -1,32 +1,29 @@
+from collections import UserList
 from sqlalchemy import Column, String, Integer, DateTime, Float, ForeignKey
-from tipo import Tipo
-from natureza import Natureza
 from sqlalchemy.orm import relationship
-from sqlalchemy.orm import Mapped, mapped_column 
 from model import Base    
 
 class Lancamento(Base):
     __tablename__ = 'lancamento'    
     
-    id = Column("pk_lancamento", Integer, primary_key=True)
-    id_usuario = Column(Integer)
+    id = Column("id", Integer, primary_key=True)
     mes_referencia = Column(Integer)
     ano_referencia = Column(Integer)
-    tipo_lancamento = Column(Tipo)
+    id_tipo_lancamento = Column(ForeignKey("tipo_lancamento.id"), nullable=False)
     valor_lancamento = Column(Float)
+    descricao = Column(String(500))
     comentario = Column(String(500))
-    natureza_id = Mapped[int] = mapped_column(ForeignKey("natureza.id"))
+   
+    tipo_lancamento = relationship("TipoLancamento", uselist = False, backref="lancamento")
     
-    def __init__(self, id_usuario:int, mes_referencia:int, ano_referencia:int, tipo_lancamento:Tipo, 
-                 valor_lancamento:float, comentario:str, natureza_id:int):
-        self.id_usuario = id_usuario
+    def __init__(self, mes_referencia:int, ano_referencia:int, id_tipo_lancamento:int, 
+                 valor_lancamento:float, descricao:str, comentario:str):
         self.mes_referencia = mes_referencia
         self.ano_referencia = ano_referencia
-        self.tipo_lancamento = tipo_lancamento
+        self.id_tipo_lancamento = id_tipo_lancamento
         self.valor_lancamento = valor_lancamento
+        self.descricao = descricao
         self.comentario = comentario
-        self.natureza_id = natureza_id
-
 
         
         
