@@ -13,8 +13,6 @@ from schemas.lancamento import *
 home_tag = Tag(name="Documentação", description="Seleção de documentação: Swagger, Redoc ou RapiDoc.")
 lancamento_tag = Tag(name="Lançamento", description="Adiciona, visualiza e remove lançamentos.")
 lookup_tipos_lancamento = Tag(name="TipoLancamento", description="Lista a lookup de tipos de lançamentos")
-lookup_natureza_de_lancamento = Tag(name="NaturezaLancamento", description="Lista a lookup de tipos de natureza de lançamentos")
-
 
 info = Info(title="Finanças em dia - API", version="1.0.0")
 app = OpenAPI(__name__, info=info)
@@ -37,8 +35,7 @@ def add_lancamento(form: NovoLancamentoSchema):
     """Adicionar um novo lançamento
     """
     novo_lancamento = Lancamento(
-        mes_referencia= form.mes_referencia,
-        ano_referencia= form.ano_referencia,
+        mes_ano_referencia = form.mes_ano_referencia,
         id_tipo_lancamento=form.tipo_lancamento,
         valor_lancamento=form.valor_lancamento, 
         descricao=form.descricao,
@@ -66,13 +63,13 @@ def add_lancamento(form: NovoLancamentoSchema):
 
 @app.get('/api/lancamentos', tags=[lancamento_tag],
          responses={"200": ListagemLancamentoSchema, "404": ErrorSchema})
-def get_lancamentos():
+def get_lancamentos(query: LancamentoBuscaSchema):
     """Faz a busca por todos os Lançamentos cadastrados
 
     Retorna uma representação da listagem de lançamentos.
     """
     session = Session()
-    lancamentos = session.query(Lancamento).all()
+    lancamentos = session.query(Lancamento).filter(Lancamento.mes_ano_referencia == query.mes_ano_referencia)
 
     if not lancamentos:
         return {"lancamentos": []}, 200

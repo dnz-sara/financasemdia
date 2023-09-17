@@ -7,7 +7,7 @@ from model.base import Base
 from model.lancamento import Lancamento
 from model.tipolancamento import TipoLancamento
 
-db_url = 'sqlite:///database/db.sqlite3'
+db_url = 'sqlite:///database/db.sqlite3?check_same_thread=False'
 
 engine = create_engine(db_url, echo=False)
 

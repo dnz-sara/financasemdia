@@ -13,8 +13,7 @@ class LancamentoViewSchema(BaseModel):
     """ Schema a ser utilizado para retornar dados de um lançamento
     """
     id: int
-    mes_referencia: int
-    ano_referencia: int
+    mes_ano_referencia: str
     tipo_lancamento: TipoLancamentoSchema
     valor_lancamento: float
     descricao: str
@@ -24,8 +23,7 @@ class LancamentoViewSchema(BaseModel):
 class NovoLancamentoSchema(BaseModel):
     """ Schema utilizado para criar um lançamento
     """
-    mes_referencia: int
-    ano_referencia: int
+    mes_ano_referencia: str
     tipo_lancamento: int
     valor_lancamento: float
     descricao: Optional[str]
@@ -35,11 +33,11 @@ class NovoLancamentoSchema(BaseModel):
 class LancamentoSchema(BaseModel):
     """ Schema utilizado para criar um lançamento
     """
-    mes_referencia: int
-    ano_referencia: int
+    mes_ano_referencia: str
     tipo_lancamento: TipoLancamentoSchema
     valor_lancamento: float
     descricao: str
+    comentario: str
 
 class ListagemLancamentoSchema(BaseModel):
     """ Schema utilizado para listagem de lançamentos 
@@ -50,7 +48,8 @@ class ListagemLancamentoSchema(BaseModel):
 class LancamentoBuscaSchema(BaseModel):
     """ Schema para busca de lancamento
     """
-    id: int
+    mes_ano_referencia: str
+    id: Optional[int] = None
 
 
 class LancamentoDeleteSchema(BaseModel):
@@ -69,11 +68,11 @@ class ListagemTipoLancamentoSchema(BaseModel):
 def apresenta_lancamento(lancamento: Lancamento):
     return {
         "id": lancamento.id,
-        "mes_referencia": lancamento.mes_referencia,
-        "ano_referencia": lancamento.ano_referencia,
+        "mes_ano_referencia": lancamento.mes_ano_referencia,
         "tipo_lancamento": { "id": lancamento.tipo_lancamento.id, "descricao": lancamento.tipo_lancamento.descricao },
         "valor_lancamento": lancamento.valor_lancamento,
         "descricao": lancamento.descricao,
+        "comentario": lancamento.comentario
     }
 
 def apresenta_lancamentos(lancamentos: List[Lancamento]):
@@ -84,11 +83,11 @@ def apresenta_lancamentos(lancamentos: List[Lancamento]):
      for lancamento in lancamentos:
         result.append({
         "id": lancamento.id,
-        "mes_referencia": lancamento.mes_referencia,
-        "ano_referencia": lancamento.ano_referencia,
+        "mes_ano_referencia": lancamento.mes_ano_referencia,
         "tipo_lancamento": { "id": lancamento.tipo_lancamento.id, "descricao": lancamento.tipo_lancamento.descricao },
         "valor_lancamento": lancamento.valor_lancamento,
         "descricao": lancamento.descricao,
+        "comentario": lancamento.comentario
         })
      return {"lancamentos": result} 
  
