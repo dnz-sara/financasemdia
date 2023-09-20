@@ -24,4 +24,4 @@ Informação adicional: para utilizar as Rotas, o campo mes_ano_referencia aceit
 
 ---
 ## Frontend
-Para acessar o frontend, favor observar esta documentação: [frontend](https://github.com/dnz-sara/financasemdia-frontend/README.md)
+Para acessar o frontend, favor observar esta documentação: [frontend](https://github.com/dnz-sara/financasemdia-frontend/blob/main/README.md)
