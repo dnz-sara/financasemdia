@@ -1,4 +1,4 @@
-# Finanças em dia
+# Finanças em dia - API
 
 A finalidade dessa aplicação é dar suporte ao front-end da app Finanças em dia.
 As Rotas implementadas possibilitam a criação, edição e exclusão de lançamentos no sistema.
