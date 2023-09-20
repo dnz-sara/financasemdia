@@ -1,8 +1,6 @@
-
 from typing import List, Optional
 from pydantic import BaseModel
 from model.lancamento import Lancamento
-from model.tipolancamento import TipoLancamento
 
 class TipoLancamentoSchema(BaseModel):
     """define um tipo de lançamento"""    
@@ -29,6 +27,16 @@ class NovoLancamentoSchema(BaseModel):
     descricao: Optional[str]
     comentario: Optional[str]
 
+class AtualizarLancamentoSchema(BaseModel):
+    """ Schema utilizado para criar um lançamento
+    """    
+    mes_ano_referencia: str
+    tipo_lancamento: int
+    valor_lancamento: float
+    descricao: Optional[str]
+    comentario: Optional[str]
+
+
 
 class LancamentoSchema(BaseModel):
     """ Schema utilizado para criar um lançamento
@@ -44,12 +52,15 @@ class ListagemLancamentoSchema(BaseModel):
     """
     lancamentos: List[LancamentoSchema]
 
-
-class LancamentoBuscaSchema(BaseModel):
+class BuscaLancamentosSchema(BaseModel):
     """ Schema para busca de lancamento
     """
     mes_ano_referencia: str
-    id: Optional[int] = None
+
+class BuscaLancamentoSchema(BaseModel):
+    """ Schema para busca de lancamento
+    """
+    id: int
 
 
 class LancamentoDeleteSchema(BaseModel):
@@ -63,6 +74,15 @@ class ListagemTipoLancamentoSchema(BaseModel):
     """ Schema utilizado para listagem de tipos de lançamento 
     """
     tipo_lancamentos: List[TipoLancamentoSchema]
+
+
+class ListagemConsolidadaSchema(BaseModel):
+    """ Schema utilizado para listagem das informações de lançamentos consolidadas
+    """
+    total_despesas: float
+    total_receitas: float
+    total_rendimentos: float
+    saldo: float
 
 
 def apresenta_lancamento(lancamento: Lancamento):
@@ -90,18 +110,3 @@ def apresenta_lancamentos(lancamentos: List[Lancamento]):
         "comentario": lancamento.comentario
         })
      return {"lancamentos": result} 
- 
-
-class ListagemTipoDeLancamentoSchema(BaseModel):
-    """ Schema utilizado para listagem de tipos de lançamento 
-    """
-    tipo_lancamentos: List[ListagemTipoLancamentoSchema]
- 
-def apresenta_tipos_de_lancamentos(tipos_de_lancamentos: List[TipoLancamento]):
-    result = []
-    for tipo in tipos_de_lancamentos :
-        result.append({
-            "id": tipo.id,
-            "descricao": tipo.descricao
-        })
-    return {"tipos_de_lancamentos": result}
